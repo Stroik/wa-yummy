@@ -1,0 +1,204 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+::-webkit-scrollbar {
+  @apply w-2;
+}
+::-webkit-scrollbar-track {
+  @apply bg-gray-200;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-400;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500;
+}
+:root {
+  --toastify-color-light: hsl(var(--n));
+  --toastify-color-dark: hsl(var(--b1));
+  --toastify-color-info: hsl(var(--in));
+  --toastify-color-success: hsl(var(--su));
+  --toastify-color-warning: hsl(var(--wa));
+  --toastify-color-error: hsl(var(--er));
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@layer components {
+  .bg-gradient-animated {
+    background: linear-gradient(
+      -45deg,
+      hsl(var(--p)),
+      hsl(var(--pf)),
+      hsl(var(--a)),
+      hsl(var(--af))
+    );
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+  }
+}
+
+#wayummy-app {
+  @apply h-screen w-screen overflow-hidden grid;
+  grid-template-areas: 'header' 'main' 'footer';
+  grid-template-rows: 60px 1fr 60px;
+}
+header {
+  @apply flex justify-between items-center w-full;
+  grid-area: header;
+}
+main {
+  @apply w-full h-full mx-auto overflow-y-auto xl:px-48;
+  grid-area: main;
+}
+main > section {
+  @apply w-full h-full overflow-y-auto pb-20 p-4 md:pb-4;
+}
+footer {
+  @apply flex flex-col justify-center p-4 text-center items-center relative bg-neutral-focus text-neutral-content;
+  grid-area: footer;
+}
+
+#login {
+  @apply h-full w-full grid place-content-center;
+}
+.page-header {
+  @apply flex justify-between items-center bg-primary p-4 rounded-xl shadow-md mb-4;
+}
+.page-header .title {
+  @apply flex items-center gap-3 text-neutral-content;
+}
+.page-header .title .page-title h1 {
+  @apply text-2xl font-bold;
+}
+.my-hero {
+  @apply flex flex-col justify-center items-center bg-primary p-4 rounded-xl shadow-md my-4 md:flex-row md:justify-between md:items-center md:gap-6 md:p-8 hover:bg-primary-focus;
+}
+.my-hero .my-hero-content {
+  @apply text-primary-content flex flex-col justify-center items-center gap-2 md:items-start;
+}
+.my-hero .my-hero-content h2 {
+  @apply text-2xl pb-4 md:pb-1 text-center md:text-left;
+}
+.my-hero .my-hero-content p {
+  @apply text-center md:text-left md:max-w-md;
+}
+.my-hero .my-hero-actions {
+  @apply flex flex-row gap-4 pt-6 md:pt-0 md:pr-4;
+}
+.item-list {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4;
+}
+#chat {
+  @apply flex flex-col md:flex-row h-full;
+}
+#chat aside {
+  @apply md:max-h-full w-full overflow-y-auto md:w-52 rounded-l-md !rounded-r-none shadow-md;
+}
+#chat aside .profile {
+  @apply bg-primary py-2 px-4 rounded-tl-md;
+}
+#chat aside .contacts {
+  @apply flex flex-col max-h-full rounded-r-md;
+}
+#chat aside .select {
+  @apply rounded-none;
+}
+#chat aside .contacts a {
+  @apply py-4 hover:bg-primary hover:text-primary-content flex gap-2 items-center shadow-md w-full p-2;
+}
+#chat aside .contacts a.active {
+  @apply bg-primary text-primary-content;
+}
+#chat .messages {
+  @apply flex flex-col flex-1 max-h-full overflow-y-auto relative rounded-r-md shadow-md;
+}
+#chat .chat-head {
+  @apply w-full flex justify-end items-center bg-primary py-2 px-4 rounded-tr-md;
+}
+#chat .chat-foot {
+  @apply w-full flex justify-between items-center bg-primary p-2 rounded-br-md;
+}
+.slider {
+  @apply absolute w-full h-full overflow-hidden;
+}
+
+.slider .slide {
+  @apply top-0 left-0 w-full h-full bg-cover bg-center absolute;
+
+  animation: slider 19.5s infinite;
+}
+
+.slider .slide:nth-child(1) {
+  @apply contrast-100;
+  background-image: url('/assets/images/bg-1.png');
+  animation-delay: 0s;
+}
+
+.slider .slide:nth-child(2) {
+  @apply contrast-100;
+  background-image: url('/assets/images/bg-2.png');
+  animation-delay: -6.5s;
+}
+
+.slider .slide:nth-child(3) {
+  @apply contrast-100;
+  background-image: url('/assets/images/bg-3.png');
+  animation-delay: -13s;
+}
+
+@keyframes slider {
+  0%,
+  25%,
+  100% {
+    opacity: 1;
+    animation-timing-function: ease;
+    z-index: 0;
+  }
+  33% {
+    opacity: 0;
+    animation-timing-function: step-end;
+    z-index: 0;
+  }
+  92% {
+    opacity: 1;
+    animation-timing-function: step-end;
+    z-index: -1;
+  }
+}
+
+#interaction {
+  @apply grid grid-cols-1 md:grid-cols-2;
+}
+#interaction aside {
+  @apply flex flex-col bg-neutral-content max-w-xs;
+}
+#interaction aside .contacts {
+  @apply flex flex-col;
+}
+#interaction aside .contacts .contact {
+  @apply flex flex-row items-center gap-2 p-2 border-b hover:bg-neutral-focus hover:text-neutral-content;
+}
+.btn {
+  @apply transition-all duration-500 ease-in-out;
+}
+.dropdown-content > li:hover > a {
+  @apply !bg-primary;
+}
+.dropdown-content > .card-body {
+  @apply text-neutral-content;
+}
+.menu.menu-horizontal > li:hover > a {
+  @apply !text-primary;
+}

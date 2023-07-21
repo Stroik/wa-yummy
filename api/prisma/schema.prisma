@@ -1,0 +1,206 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["filteredRelationCount"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String          @id @default(cuid())
+  name          String?
+  email         String?         @unique
+  password      String?
+  emailVerified DateTime?       @default(now())
+  image         String?
+  accounts      Account[]
+  Config        Config[]
+  sessions      Session[]
+  Whatsapp      Whatsapp[]
+  Book          Book[]
+  Campaign      Campaign[]
+  Message       Message[]
+  WhatsappGroup WhatsappGroup[]
+  Role          Role            @relation(fields: [roleId], references: [id])
+  roleId        String
+  Contact       Contact[]
+  Plan          Plan            @relation(fields: [planId], references: [id])
+  planId        String
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Role {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  users       User[]
+}
+
+model WhatsappOnCampaigns {
+  Whatsapp   Whatsapp @relation(fields: [whatsappId], references: [id])
+  whatsappId String
+  Campaign   Campaign @relation(fields: [campaignId], references: [id])
+  campaignId String
+
+  assignedAt DateTime @default(now())
+
+  @@id([whatsappId, campaignId])
+}
+
+model Plan {
+  id       String @id @default(cuid())
+  name     String
+  whatsapp Int
+  users    User[]
+}
+
+model Whatsapp {
+  id                  String                @id @default(cuid())
+  phone               String?
+  qr                  String?
+  name                String
+  status              String                @default("CREATED")
+  userId              String
+  user                User                  @relation(fields: [userId], references: [id])
+  WhatsappGroup       WhatsappGroup?        @relation(fields: [whatsappGroupId], references: [id])
+  whatsappGroupId     String?
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  campaignId          String?
+  WhatsappOnCampaigns WhatsappOnCampaigns[]
+}
+
+model Campaign {
+  id                  String                @id @default(cuid())
+  name                String
+  description         String?
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  userId              String
+  user                User                  @relation(fields: [userId], references: [id])
+  mediaUrl            String?
+  mediaType           String?
+  timeout             Int
+  type                String?
+  status              String                @default("CREATED")
+  message             String
+  Message             Message[]
+  Book                Book                  @relation(fields: [bookId], references: [id])
+  bookId              String
+  visible             Boolean               @default(true)
+  WhatsappOnCampaigns WhatsappOnCampaigns[]
+}
+
+model Contact {
+  id        String   @id @default(cuid())
+  name      String?
+  phone     String
+  image     String?
+  info      String?
+  visible   Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  bookId    String
+  Book      Book     @relation(fields: [bookId], references: [id])
+}
+
+model Book {
+  id          String     @id @default(cuid())
+  name        String
+  description String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  userId      String
+  available   Boolean    @default(true)
+  user        User       @relation(fields: [userId], references: [id])
+  Campaign    Campaign[]
+  Contact     Contact[]
+}
+
+model Config {
+  id        String   @id @default(uuid())
+  key       String
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Message {
+  id         String    @id @default(cuid())
+  text       String
+  from       String    @default("APP")
+  to         String
+  status     String
+  mediaUrl   String?
+  mediaType  String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  userId     String?
+  user       User?     @relation(fields: [userId], references: [id])
+  campaignId String?
+  Campaign   Campaign? @relation(fields: [campaignId], references: [id])
+}
+
+model WhatsappGroup {
+  id        String     @id @default(cuid())
+  name      String
+  phone     String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  userId    String
+  user      User       @relation(fields: [userId], references: [id])
+  whatsapps Whatsapp[]
+}
+
+model DemoRequest {
+  id        String   @id @default(cuid())
+  firstname String
+  lastname  String
+  email     String
+  phone     String
+  business  String?
+  message   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

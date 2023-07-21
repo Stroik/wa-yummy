@@ -1,0 +1,6 @@
+node_modules
+.wwebjs_cache
+# Keep environment variables out of version control
+.env
+dist/*
+public/*
