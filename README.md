@@ -2,7 +2,7 @@
 
 A web application that allows sending messages and multimedia content to multiple recipients through WhatsApp, facilitating communication and promotion of products or services. You can connect multiple accounts simultaneously and receive all the responses unified in one place.
 
-[Showcase](https://i.imgur.com/uWfmKE5.mp4)
+[Demo Video](https://i.imgur.com/uWfmKE5.mp4)
 
 ## Getting Started
 
@@ -126,6 +126,53 @@ cd api && npm run start
 ```
 cd client && npm run start
 ```
+
+### How to use
+
+Once the application is running, you can access it from the browser at [http://localhost:3000](http://localhost:3000) and log in with the credentials created in the seed. If you left the default credentials in the `/api/prisma/seed.js` file, you can log in with the following credentials:
+
+```
+As Administrator:
+email: admin@wa-yummy.com
+password: asdasd123
+
+As Client:
+email: client@wa-yummy.com
+password: asdasd123
+
+As a demo user:
+email: demo@wa-yummy.com
+password: asdasd123
+
+```
+
+#### Functionalities
+
+- Add multiple WhatsApp accounts in the [Whatsapp section](http://localhost:3000/whatsapps)
+- Add phone databases in the [Databases section](http://localhost:3000/databases)
+- Create campaigns in the [Campaigns section](http://localhost:3000/campaigns) with or without multimedia content. The multimedia is self-hosted, so you can upload images or videos and they will be sent to the recipients.
+- You can check the sent messages in the [Messages section](http://localhost:3000/messages). You can filter by campaign, received/sent messages, and date.
+- As administrator you can also validate database in order to know which phone numbers are valid and which are not. You can do this in the [Validation section](http://localhost:3000/admin/validate)
+
+#### Steps to send a campaign
+
+1. Create a WhatsApp account in the [Whatsapp section](http://localhost:3000/whatsapps)
+2. Create a database in the [Databases section](http://localhost:3000/databases)
+3. Create a campaign in the [Campaigns section](http://localhost:3000/campaigns)
+4. Send the campaign in the [Campaigns section](http://localhost:3000/campaigns)
+5. Check the sent messages in the [Messages section](http://localhost:3000/messages)
+
+## Contributing
+
+Pull requests are welcome! If you see something you'd like to add, please do. For drastic changes, please open an issue first.
+
+## TODO
+
+- Finish translations
+- Add more languages
+- Add tests
+- Refactor database section with socket.io
+
 
 ## Disclaimer
 
